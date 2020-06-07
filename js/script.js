@@ -82,18 +82,21 @@ const appendPageLinks = (list) => {
 }
 
 // create a search input with button
-const pageHeader = document.querySelector('.page-header')
+const createSearch = () => {
+  const pageHeader = document.querySelector('.page-header')
 
-const searchDiv = createElement('div', 'className', 'student-search')
+  const searchDiv = createElement('div', 'className', 'student-search')
 
-const searchInput = createElement('input')
-searchInput.setAttribute('placeholder', 'Search for students...')
-searchDiv.appendChild(searchInput)
+  const searchInput = createElement('input')
+  searchInput.setAttribute('placeholder', 'Search for students...')
+  searchDiv.appendChild(searchInput)
 
-const searchButton = createElement('button', 'innerHTML', 'Search')
-searchDiv.appendChild(searchButton)
+  const searchButton = createElement('button', 'innerHTML', 'Search')
+  searchDiv.appendChild(searchButton)
 
-pageHeader.appendChild(searchDiv)
+  pageHeader.appendChild(searchDiv)
+}
+createSearch()
 
 // reference to the search input:
 const searchBar = document.querySelector('input')
