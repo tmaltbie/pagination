@@ -6,6 +6,11 @@ FSJS project 2 - List Filter and Pagination
 const listItem = document.querySelectorAll('.student-item')
 const eachPage = 10
 
+function createElement (elementName, property, value) {
+  const element = document.createElement(elementName)
+  element[property] = value
+  return element
+}
 /**
  * showPage
  * creates the pcessary amount of pages
@@ -38,10 +43,9 @@ const showPage = (list, page) => {
 const appendPageLinks = (list) => {
   const pageDiv = document.querySelector('.page')
 
-  const paginationDiv = document.createElement('div')
-  paginationDiv.className = 'pagination'
+  const paginationDiv = createElement('div', 'className', 'pagination')
 
-  const ul = document.createElement('ul')
+  const ul = createElement('ul')
 
   pageDiv.appendChild(paginationDiv)
   paginationDiv.appendChild(ul)
@@ -58,8 +62,6 @@ const appendPageLinks = (list) => {
     li.appendChild(anchorTag)
   }
 
-  // const selectLI = ul.firstElementChild;
-  // selectLI.firstElementChild.className = 'active'
   const pagination = document.querySelector('.pagination')
   document.querySelector('a').className = 'active'
   // pagination.firstElementChild.firstElementChild.firstElementChild.className = 'active'
@@ -82,12 +84,14 @@ const appendPageLinks = (list) => {
 
 // create a search input with button
 const pageHeader = document.querySelector('.page-header')
-const searchDiv = document.createElement('div')
-const searchInput = document.createElement('input')
-const searchButton = document.createElement('button')
-searchDiv.className = 'student-search'
+
+const searchDiv = createElement('div', 'className', 'student-search')
+
+const searchInput = createElement('input')
 searchInput.setAttribute('placeholder', 'Search for students...')
-searchButton.innerHTML = 'Search'
+
+const searchButton = createElement('button', 'innerHTML', 'Search')
+
 searchDiv.appendChild(searchInput)
 searchDiv.appendChild(searchButton)
 pageHeader.appendChild(searchDiv)
@@ -115,9 +119,9 @@ const renderStudents = (search, studentList) => {
   // variable to reference each individual in studentList at index of i
     const students = studentList[i]
     students.style.display = 'none'
-    // reference just the names of students to avoid searching for emails
+    // reference just the names of the students (avoids emails)
     const names = students.querySelector('h3').textContent
-    // if search results are in the list, reveal them. otherwise do not.
+    // if search results are in the list add to array otherwise remove
     if (names.toLowerCase().indexOf(filter) > -1) {
       searchResults.push(students)
     } else {
