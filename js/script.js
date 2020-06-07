@@ -53,46 +53,46 @@ const appendPageLinks = (list) => {
   // simple math problem to determine how many list items need to be created
   const numOfLI = Math.ceil(list.length / 10)
 
- for (i = 1; i <= numOfLI; i++) {
-  li = document.createElement('li');
-  anchorTag = document.createElement('a');
-  anchorTag.setAttribute('href', '#');
-  anchorTag.innerHTML = i;
-  ul.appendChild(li);
-  li.appendChild(anchorTag);
- }
-
- const selectLI = ul.firstElementChild;
- selectLI.firstElementChild.className = 'active';
- const pagination = document.querySelector('.pagination')
- 
- pagination.addEventListener('click', (e) => {
-  const anchor = document.querySelectorAll('a');
-  if (e.target.tagName = 'A') {
-   for(let i = 0; i < anchor.length; i++) {
-    let anchors = anchor[i];
-    if (anchors.className === 'active') {
-     anchors.className = '';
-    }
-   }
-   e.target.className = 'active';
-   const current_page = e.target.innerHTML;
-   showPage(list, current_page);
+  for (let i = 1; i <= numOfLI; i++) {
+    const li = document.createElement('li');
+    const anchorTag = document.createElement('a');
+    anchorTag.setAttribute('href', '#');
+    anchorTag.innerHTML = i;
+    ul.appendChild(li);
+    li.appendChild(anchorTag);
   }
- })
-};
+
+  const selectLI = ul.firstElementChild;
+  selectLI.firstElementChild.className = 'active';
+  const pagination = document.querySelector('.pagination')
+
+  pagination.addEventListener('click', (e) => {
+    const anchor = document.querySelectorAll('a');
+    if (e.target.tagName === 'A') {
+      for (let i = 0; i < anchor.length; i++) {
+        const anchors = anchor[i];
+        if (anchors.className === 'active') {
+          anchors.className = ''
+        }
+      }
+      e.target.className = 'active'
+      const currentPage = e.target.innerHTML
+      showPage(list, currentPage)
+    }
+  })
+}
 
 // create a search input with button
- const pageHeader = document.querySelector('.page-header');
- const searchDiv = document.createElement('div');
- const searchInput = document.createElement('input');
- const searchButton = document.createElement('button');
- searchDiv.className = 'student-search';
- searchInput.setAttribute('placeholder', 'Search for students...')
- searchButton.innerHTML = 'Search';
- searchDiv.appendChild(searchInput);
- searchDiv.appendChild(searchButton);
- pageHeader.appendChild(searchDiv);
+const pageHeader = document.querySelector('.page-header');
+const searchDiv = document.createElement('div');
+const searchInput = document.createElement('input');
+const searchButton = document.createElement('button');
+searchDiv.className = 'student-search';
+searchInput.setAttribute('placeholder', 'Search for students...')
+searchButton.innerHTML = 'Search';
+searchDiv.appendChild(searchInput);
+searchDiv.appendChild(searchButton);
+pageHeader.appendChild(searchDiv);
 
 // reference to the search input:
 const searchBar = document.querySelector('input');
@@ -109,7 +109,7 @@ const renderStudents = (search, studentList) => {
   const filter = search.value.toLowerCase()
   const pageDiv = document.querySelector('.page')
   const pagination = document.querySelector('.pagination')
-  pageDiv.removeChild(pagination);
+  pageDiv.removeChild(pagination)
 
   // loop over studentList
   for (let i = 0; i < studentList.length; i++) {
@@ -118,30 +118,28 @@ const renderStudents = (search, studentList) => {
     students.style.display = 'none'
     // reference just the names of students to avoid searching for emails
     const names = students.querySelector('h3').textContent
- // if search results are in the list, reveal them. otherwise do not.
- if (names.toLowerCase().indexOf(filter) > -1) {
-  searchResults.push(students.style.display = '')
- } else {
-  searchResults.pop(students.style.display = 'none')
- }
-  
-  showPage(searchResults, 1);
-  appendPageLinks(searchResults);
+    // if search results are in the list, reveal them. otherwise do not.
+    if (names.toLowerCase().indexOf(filter) > -1) {
+      searchResults.push(students)
+    } else {
+      searchResults.pop(students)
+    }
+  }
+  showPage(searchResults, 1)
+  appendPageLinks(searchResults)
+}
 
- }
-};
-
-// call original two functions
-showPage(listItem, 1);
-appendPageLinks(listItem);
+// call original two functiond
+showPage(listItem, 1)
+appendPageLinks(listItem)
 // keyup allows search filter to work in real time
 searchBar.addEventListener('keyup', () => {
- renderStudents(searchBar, listItem)
-});
+  renderStudents(searchBar, listItem)
+})
 // submit allows button to also process the input
 searchBar.addEventListener('submit', () => {
- renderStudents(searchBar, listItem)
-});
+  renderStudents(searchBar, listItem)
+})
 
 /**
  * noMatch
