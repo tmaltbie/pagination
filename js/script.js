@@ -116,6 +116,18 @@ const renderStudents = (search, studentList) => {
   const pagination = document.querySelector('.pagination')
   pageDiv.removeChild(pagination)
 
+  /**
+ * noMatch
+ *
+ * create a element with text to append to DOM
+ * used to display that no results were found
+ *
+ */
+  const noMatch = () => {
+    const ul = document.querySelector('.student-list')
+    const li = createElement('li', 'textContent', 'No results found');
+    ul.appendChild(li)
+  }
   // loop over studentList
   for (let i = 0; i < studentList.length; i++) {
   // variable to reference each individual in studentList at index of i
@@ -128,6 +140,8 @@ const renderStudents = (search, studentList) => {
       searchResults.push(students)
     } else if (names.toLowerCase().indexOf(filter) === -1) {
       searchResults.pop(students)
+    } else if (names.toLowerCase().filter.length === 0) {
+      noMatch()
     }
   }
   showPage(searchResults, 1)
@@ -145,16 +159,3 @@ searchBar.addEventListener('keyup', () => {
 searchBar.addEventListener('submit', () => {
   renderStudents(searchBar, listItem)
 })
-
-/**
- * noMatch
- *
- * create a element with text to append to DOM
- * used to display that no results were found
- */
- // noMatch = () => {
- //  ul = document.querySelector('.student-list')
- //  li = document.createElement('li');
- //  li.textContent = 'No results found';
- //  ul.appendChild(li);
- // }
