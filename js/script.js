@@ -2,56 +2,56 @@
 Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
-   
+
 // Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
 
-
-const listItem = document.querySelectorAll('.student-item');
+const listItem = document.querySelectorAll('.student-item')
 // selects all the students
 
-const eachPage = 10;
+const eachPage = 10
 // variable determines how many students will show per page
 
 /**
  * showPage
- * creates the necessary amount of pages
- * 
+ * creates the pcessary amount of pages
+ *
  * @list {object} - takes a list to iterate over and display list items
  * @page {number} - determines how many items are on each page
  */
 const showPage = (list, page) => {
- const startIndex = (page * eachPage) - eachPage;
- const endIndex = (page * eachPage)
- for (let i = 0; i < list.length; i++) {
-  let listIndex = list[i];
-   if (i >= startIndex && i < endIndex) {
-    listIndex.style.display = '';
-   } else {
-    listIndex.style.display = 'none';
-   }
- }
-};
+  const startIndex = (page * eachPage) - eachPage;
+  const endIndex = (page * eachPage)
+  for (let i = 0; i < list.length; i++) {
+    const listIndex = list[i]
+    if (i >= startIndex && i < endIndex) {
+      listIndex.style.display = ''
+    } else {
+      listIndex.style.display = 'none'
+    }
+  }
+}
 
 /**
  * appendPageLinks
  * creates the pagination
- * 
+ *
  * @list {object} - takes a list (NodeList or Array) to iterate over
  * in order create and append elements to the DOM based on number of students (list items)
  */
+
 const appendPageLinks = (list) => {
- const pageDiv = document.querySelector('.page');
+  const pageDiv = document.querySelector('.page')
 
- const paginationDiv = document.createElement('div');
- paginationDiv.className = 'pagination';
+  const paginationDiv = document.createElement('div')
+  paginationDiv.className = 'pagination'
 
- const ul = document.createElement('ul');
+  const ul = document.createElement('ul')
 
- pageDiv.appendChild(paginationDiv);
- paginationDiv.appendChild(ul);
+  pageDiv.appendChild(paginationDiv)
+  paginationDiv.appendChild(ul)
 
- // simple math problem to determine how many list items need to be created
- numOfLI = Math.ceil(list.length/10);
+  // simple math problem to determine how many list items need to be created
+  const numOfLI = Math.ceil(list.length / 10)
 
  for (i = 1; i <= numOfLI; i++) {
   li = document.createElement('li');
@@ -82,7 +82,7 @@ const appendPageLinks = (list) => {
  })
 };
 
- // create a search input with button
+// create a search input with button
  const pageHeader = document.querySelector('.page-header');
  const searchDiv = document.createElement('div');
  const searchInput = document.createElement('input');
@@ -94,32 +94,35 @@ const appendPageLinks = (list) => {
  searchDiv.appendChild(searchButton);
  pageHeader.appendChild(searchDiv);
 
- // reference to the search input:
+// reference to the search input:
 const searchBar = document.querySelector('input');
 
 /**
  * renderStudents
  * a search filter to reveal students that match search results and hide those that do not
- * 
+ *
  * @search {object}  - will be a input value
  * @studentList {object}  - list of items to display and hide
  */
 const renderStudents = (search, studentList) => {
- const searchResults = [];
- const filter = search.value.toLowerCase();
- 
-// loop over studentList
-for (let i = 0; i < studentList.length; i++) {
- // variable to reference each individual in studentList at index of i
- let students = studentList[i];
- students.style.display = 'none'
- // reference just the names of students to avoid searching for emails
- const names = students.querySelector('h3').textContent;
+  const searchResults = []
+  const filter = search.value.toLowerCase()
+  const pageDiv = document.querySelector('.page')
+  const pagination = document.querySelector('.pagination')
+  pageDiv.removeChild(pagination);
+
+  // loop over studentList
+  for (let i = 0; i < studentList.length; i++) {
+  // variable to reference each individual in studentList at index of i
+    const students = studentList[i]
+    students.style.display = 'none'
+    // reference just the names of students to avoid searching for emails
+    const names = students.querySelector('h3').textContent
  // if search results are in the list, reveal them. otherwise do not.
  if (names.toLowerCase().indexOf(filter) > -1) {
-  searchResults.push(students.style.display = '');
+  searchResults.push(students.style.display = '')
  } else {
-  searchResults.pop(students.style.display = 'none');
+  searchResults.pop(students.style.display = 'none')
  }
   
   showPage(searchResults, 1);
@@ -142,9 +145,9 @@ searchBar.addEventListener('submit', () => {
 
 /**
  * noMatch
- * 
+ *
  * create a element with text to append to DOM
- * used to display that no results were foound 
+ * used to display that no results were found
  */
  // noMatch = () => {
  //  ul = document.querySelector('.student-list')
