@@ -37,6 +37,7 @@ const showPage = (list, page) => {
  *
  * @list {object} - takes a list (NodeList or Array) to iterate over
  * in order create and append elements to the DOM based on number of students (list items)
+ *
  */
 
 const appendPageLinks = (list) => {
@@ -54,17 +55,18 @@ const appendPageLinks = (list) => {
   const numOfLI = Math.ceil(list.length / 10)
 
   for (let i = 1; i <= numOfLI; i++) {
-    const li = document.createElement('li');
-    const anchorTag = document.createElement('a');
-    anchorTag.setAttribute('href', '#');
-    anchorTag.innerHTML = i;
-    ul.appendChild(li);
-    li.appendChild(anchorTag);
+    const li = document.createElement('li')
+    const anchorTag = document.createElement('a')
+    anchorTag.setAttribute('href', '#')
+    anchorTag.innerHTML = i
+    ul.appendChild(li)
+    li.appendChild(anchorTag)
   }
 
-  const selectLI = ul.firstElementChild;
-  selectLI.firstElementChild.className = 'active';
+  // const selectLI = ul.firstElementChild;
+  // selectLI.firstElementChild.className = 'active'
   const pagination = document.querySelector('.pagination')
+  pagination.firstElementChild.firstElementChild.firstElementChild.className = 'active'
 
   pagination.addEventListener('click', (e) => {
     const anchor = document.querySelectorAll('a');
@@ -83,16 +85,16 @@ const appendPageLinks = (list) => {
 }
 
 // create a search input with button
-const pageHeader = document.querySelector('.page-header');
-const searchDiv = document.createElement('div');
-const searchInput = document.createElement('input');
-const searchButton = document.createElement('button');
-searchDiv.className = 'student-search';
+const pageHeader = document.querySelector('.page-header')
+const searchDiv = document.createElement('div')
+const searchInput = document.createElement('input')
+const searchButton = document.createElement('button')
+searchDiv.className = 'student-search'
 searchInput.setAttribute('placeholder', 'Search for students...')
-searchButton.innerHTML = 'Search';
-searchDiv.appendChild(searchInput);
-searchDiv.appendChild(searchButton);
-pageHeader.appendChild(searchDiv);
+searchButton.innerHTML = 'Search'
+searchDiv.appendChild(searchInput)
+searchDiv.appendChild(searchButton)
+pageHeader.appendChild(searchDiv)
 
 // reference to the search input:
 const searchBar = document.querySelector('input');
@@ -103,6 +105,7 @@ const searchBar = document.querySelector('input');
  *
  * @search {object}  - will be a input value
  * @studentList {object}  - list of items to display and hide
+ *
  */
 const renderStudents = (search, studentList) => {
   const searchResults = []
