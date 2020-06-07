@@ -54,10 +54,9 @@ const appendPageLinks = (list) => {
   const numOfLI = Math.ceil(list.length / 10)
 
   for (let i = 1; i <= numOfLI; i++) {
-    const li = document.createElement('li')
-    const anchorTag = document.createElement('a')
+    const li = createElement('li')
+    const anchorTag = createElement('a', 'innerHTML', i)
     anchorTag.setAttribute('href', '#')
-    anchorTag.innerHTML = i
     ul.appendChild(li)
     li.appendChild(anchorTag)
   }
@@ -89,11 +88,11 @@ const searchDiv = createElement('div', 'className', 'student-search')
 
 const searchInput = createElement('input')
 searchInput.setAttribute('placeholder', 'Search for students...')
+searchDiv.appendChild(searchInput)
 
 const searchButton = createElement('button', 'innerHTML', 'Search')
-
-searchDiv.appendChild(searchInput)
 searchDiv.appendChild(searchButton)
+
 pageHeader.appendChild(searchDiv)
 
 // reference to the search input:
@@ -124,7 +123,7 @@ const renderStudents = (search, studentList) => {
     // if search results are in the list add to array otherwise remove
     if (names.toLowerCase().indexOf(filter) > -1) {
       searchResults.push(students)
-    } else {
+    } else if (names.toLowerCase().indexOf(filter) === -1) {
       searchResults.pop(students)
     }
   }
