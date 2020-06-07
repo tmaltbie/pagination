@@ -6,11 +6,21 @@ FSJS project 2 - List Filter and Pagination
 const listItem = document.querySelectorAll('.student-item')
 const eachPage = 10
 
+/**
+ * createElement
+ * creates elements with a property and a value and returns the element
+ *
+ * @elementName {object} - type of element, ex: li
+ * @property {object} - element property, ex: elementName.innerText
+ * @value {object} - property value, ex: property = 'No results found'
+ *
+ */
 function createElement (elementName, property, value) {
   const element = document.createElement(elementName)
   element[property] = value
   return element
 }
+
 /**
  * showPage
  * creates the pcessary amount of pages
@@ -119,13 +129,12 @@ const renderStudents = (search, studentList) => {
   /**
  * noMatch
  *
- * create a element with text to append to DOM
- * used to display that no results were found
+ * create and append element to DOM to display no search results
  *
  */
   const noMatch = () => {
     const ul = document.querySelector('.student-list')
-    const li = createElement('li', 'textContent', 'No results found');
+    const li = createElement('li', 'textContent', 'No results found')
     ul.appendChild(li)
   }
   // loop over studentList
