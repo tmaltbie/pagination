@@ -3,13 +3,8 @@ Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
 
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
-
 const listItem = document.querySelectorAll('.student-item')
-// selects all the students
-
 const eachPage = 10
-// variable determines how many students will show per page
 
 /**
  * showPage
@@ -17,9 +12,10 @@ const eachPage = 10
  *
  * @list {object} - takes a list to iterate over and display list items
  * @page {number} - determines how many items are on each page
+ *
  */
 const showPage = (list, page) => {
-  const startIndex = (page * eachPage) - eachPage;
+  const startIndex = (page * eachPage) - eachPage
   const endIndex = (page * eachPage)
   for (let i = 0; i < list.length; i++) {
     const listIndex = list[i]
@@ -39,7 +35,6 @@ const showPage = (list, page) => {
  * in order create and append elements to the DOM based on number of students (list items)
  *
  */
-
 const appendPageLinks = (list) => {
   const pageDiv = document.querySelector('.page')
 
@@ -51,7 +46,7 @@ const appendPageLinks = (list) => {
   pageDiv.appendChild(paginationDiv)
   paginationDiv.appendChild(ul)
 
-  // simple math problem to determine how many list items need to be created
+  // determine how many list items need to be created (ex: 66 items = 7 pages)
   const numOfLI = Math.ceil(list.length / 10)
 
   for (let i = 1; i <= numOfLI; i++) {
@@ -66,13 +61,14 @@ const appendPageLinks = (list) => {
   // const selectLI = ul.firstElementChild;
   // selectLI.firstElementChild.className = 'active'
   const pagination = document.querySelector('.pagination')
-  pagination.firstElementChild.firstElementChild.firstElementChild.className = 'active'
+  document.querySelector('a').className = 'active'
+  // pagination.firstElementChild.firstElementChild.firstElementChild.className = 'active'
 
   pagination.addEventListener('click', (e) => {
-    const anchor = document.querySelectorAll('a');
+    const anchor = document.querySelectorAll('a')
     if (e.target.tagName === 'A') {
       for (let i = 0; i < anchor.length; i++) {
-        const anchors = anchor[i];
+        const anchors = anchor[i]
         if (anchors.className === 'active') {
           anchors.className = ''
         }
@@ -97,7 +93,7 @@ searchDiv.appendChild(searchButton)
 pageHeader.appendChild(searchDiv)
 
 // reference to the search input:
-const searchBar = document.querySelector('input');
+const searchBar = document.querySelector('input')
 
 /**
  * renderStudents
