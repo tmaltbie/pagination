@@ -52,16 +52,13 @@ const showPage = (list, page) => {
  */
 const appendPageLinks = (list) => {
   const pageDiv = document.querySelector('.page')
-
-  const paginationDiv = createElement('div', 'className', 'pagination')
-
   const ul = createElement('ul')
-
+  const paginationDiv = createElement('div', 'className', 'pagination')
   pageDiv.appendChild(paginationDiv)
   paginationDiv.appendChild(ul)
 
   // determine how many list items need to be created (ex: 66 items = 7 pages)
-  const numOfLI = Math.round(list.length / 10)
+  const numOfLI = Math.round(list.length / eachPage)
 
   for (let i = 0; i <= numOfLI; i++) {
     const li = createElement('li')
@@ -93,20 +90,21 @@ const appendPageLinks = (list) => {
 
 // create a search input with button
 const pageHeader = document.querySelector('.page-header')
-
 const searchDiv = createElement('div', 'className', 'student-search')
-
 const searchBar = createElement('input')
+const searchButton = createElement('button', 'innerHTML', 'Search')
 searchBar.setAttribute('placeholder', 'Search for students...')
 searchDiv.appendChild(searchBar)
-
-const searchButton = createElement('button', 'innerHTML', 'Search')
 searchDiv.appendChild(searchButton)
-
 pageHeader.appendChild(searchDiv)
 
-// reference to the search input:
-// const searchBar = document.querySelector('input')
+// create no results element
+const noMatch = createElement('h3', 'textContent', 'No results found... try again')
+const pageDiv = document.querySelector('.page')
+pageDiv.appendChild(noMatch)
+noMatch.style.display = 'none'
+
+const pagination = document.querySelector('.pagination')
 
 /**
  * renderStudents
@@ -116,22 +114,54 @@ pageHeader.appendChild(searchDiv)
  * @studentList {object}  - list of items to display and hide
  *
  */
-const renderStudents = (search, studentList) => {
-  const searchResults = []
-  const filter = search.value.trim().toLowerCase()
-  // remove the pagination before re-adding it later
-  const pageDiv = document.querySelector('.page')
-  const pagination = document.querySelector('.pagination')
-  pageDiv.removeChild(pagination)
-  // create and append no results then hide it for later use
-  const noMatch = createElement('h3', 'textContent', 'No results found... try again')
-  pageDiv.appendChild(noMatch)
-  noMatch.style.display = 'none'
+// const renderStudents = (search, studentList) => {
+//   const searchResults = []
+//   const filter = search.value.toLowerCase()
+//   // remove the pagination before re-adding it later
+//    pageDiv.removeChild(pagination)
 
-  // loop over studentList
-  for (let i = 0; i < studentList.length; i++) {
-    const students = studentList[i]
-    students.style.display = 'none'
+//   // loop over studentList
+//   for (let i = 0; i < studentList.length; i++) {
+//     const students = studentList[i]
+//     students.style.display = 'none'
+//     const studentsNames = students.querySelector('h3').textContent
+//     if (filter.length !== 0 && studentsNames.toLowerCase().includes(filter)) {
+//       searchResults.push(students)
+//     } else {
+//       students.style.display = 'none'
+//     }
+//   }
+//   if (searchResults.length === 0) {
+//     noMatch.style.display = ''
+//   } else {
+//     noMatch.style.display = 'none'
+//   } if (searchBar.value === '') {
+//     noMatch.style.display = 'none'
+//     showPage(listItem, 1)
+//     appendPageLinks(listItem)
+//   }
+//   showPage(searchResults, 1)
+//   appendPageLinks(searchResults)
+// }
+
+function searchFilter () {
+  const filter = searchBar.value.toLowerCase()
+  for (let i = 0; i < listItem.length; i++) {
+    const students = listItem[i]
+    const studentsNames = students.querySelector('h3').textContent
+    if (studentsNames.toLowerCase().indexOf(filter) > -1) {
+      students.style.display = ''
+    } else {
+      students.style.display = 'none'
+    }
+  }
+}
+
+function searchPagination() {
+  const searchResults = []
+  const filter = searchBar.value.toLowerCase()
+  for (let i = 0; i < listItem.length; i++) {
+    const students = listItem[i]
     const studentsNames = students.querySelector('h3').textContent
     if (filter.length !== 0 && studentsNames.toLowerCase().includes(filter)) {
       searchResults.push(students)
@@ -142,19 +172,27 @@ const renderStudents = (search, studentList) => {
   } else {
     noMatch.style.display = 'none'
   }
+  pagination.innerHTML = ''
   showPage(searchResults, 1)
   appendPageLinks(searchResults)
 }
 
-showPage(listItem, 1)
-appendPageLinks(listItem)
+// showPage(listItem, 1)
+// appendPageLinks(listItem)
 
 searchBar.addEventListener('keyup', (e) => {
-  renderStudents(searchBar, listItem)
+  if (searchBar.value !== '') {
+    searchFilter()
+    searchPagination()
+  } else {
+    pagination.innerHTML = ''
+    showPage(listItem, 1)
+    appendPageLinks(listItem)
+  }
 })
 
-searchBar.addEventListener('submit', () => {
-  renderStudents(searchBar, listItem)
-})
+// searchBar.addEventListener('submit', () => {
+//   renderStudents(searchBar, listItem)
+// })
 
-// filter.length !== 0 && names.toLowerCase().indexOf(filter) > -1
+// filter.length !== 0 && 
