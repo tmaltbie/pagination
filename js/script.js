@@ -96,9 +96,9 @@ const pageHeader = document.querySelector('.page-header')
 
 const searchDiv = createElement('div', 'className', 'student-search')
 
-const searchInput = createElement('input')
-searchInput.setAttribute('placeholder', 'Search for students...')
-searchDiv.appendChild(searchInput)
+const searchBar = createElement('input')
+searchBar.setAttribute('placeholder', 'Search for students...')
+searchDiv.appendChild(searchBar)
 
 const searchButton = createElement('button', 'innerHTML', 'Search')
 searchDiv.appendChild(searchButton)
@@ -106,7 +106,7 @@ searchDiv.appendChild(searchButton)
 pageHeader.appendChild(searchDiv)
 
 // reference to the search input:
-const searchBar = document.querySelector('input')
+// const searchBar = document.querySelector('input')
 
 /**
  * renderStudents
@@ -118,30 +118,27 @@ const searchBar = document.querySelector('input')
  */
 const renderStudents = (search, studentList) => {
   const searchResults = []
-  const filter = search.value.toLowerCase()
+  const filter = search.value.trim().toLowerCase()
+  // remove the pagination before re-adding it later
   const pageDiv = document.querySelector('.page')
   const pagination = document.querySelector('.pagination')
   pageDiv.removeChild(pagination)
-
+  // create and append no results then hide it for later use
   const noMatch = createElement('h3', 'textContent', 'No results found... try again')
   pageDiv.appendChild(noMatch)
   noMatch.style.display = 'none'
 
   // loop over studentList
   for (let i = 0; i < studentList.length; i++) {
-  // variable to reference each individual in studentList at index of i
     const students = studentList[i]
     students.style.display = 'none'
-    // reference just the names of the students (avoids emails)
-    const names = students.querySelector('h3').textContent
-    // if search results are in the list add to array otherwise remove
-    if (names.toLowerCase().indexOf(filter) > -1) {
+    const studentsNames = students.querySelector('h3').textContent
+    if (filter.length !== 0 && studentsNames.toLowerCase().includes(filter)) {
       searchResults.push(students)
     }
   }
   if (searchResults.length === 0) {
     noMatch.style.display = ''
-    console.log('problem if more then 1')
   } else {
     noMatch.style.display = 'none'
   }
@@ -149,14 +146,15 @@ const renderStudents = (search, studentList) => {
   appendPageLinks(searchResults)
 }
 
-// call original two function
 showPage(listItem, 1)
 appendPageLinks(listItem)
-// keyup allows search filter to work in real time
+
 searchBar.addEventListener('keyup', (e) => {
   renderStudents(searchBar, listItem)
 })
-// submit allows button to also process the input
+
 searchBar.addEventListener('submit', () => {
   renderStudents(searchBar, listItem)
 })
+
+// filter.length !== 0 && names.toLowerCase().indexOf(filter) > -1
