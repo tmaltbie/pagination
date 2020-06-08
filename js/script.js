@@ -61,52 +61,50 @@ const appendPageLinks = (list) => {
   paginationDiv.appendChild(ul)
 
   // determine how many list items need to be created (ex: 66 items = 7 pages)
-  const numOfLI = Math.ceil(list.length / 10)
+  const numOfLI = Math.round(list.length / 10)
 
-  for (let i = 1; i <= numOfLI; i++) {
+  for (let i = 0; i <= numOfLI; i++) {
     const li = createElement('li')
-    const anchorTag = createElement('a', 'innerHTML', i)
-    anchorTag.setAttribute('href', '#')
+    const a = createElement('a', 'textContent', i)
     ul.appendChild(li)
-    li.appendChild(anchorTag)
+    li.appendChild(a)
+
+    a.href = '#'
+    a.textContent = i + 1
+
+    if (i === 0) {
+      a.className = 'active'
+    }
   }
 
-  const pagination = document.querySelector('.pagination')
-  document.querySelector('a').className = 'active'
-  // pagination.firstElementChild.firstElementChild.firstElementChild.className = 'active'
-
-  pagination.addEventListener('click', (e) => {
+  paginationDiv.addEventListener('click', (e) => {
     const anchor = document.querySelectorAll('a')
     if (e.target.tagName === 'A') {
       for (let i = 0; i < anchor.length; i++) {
         const anchors = anchor[i]
-        if (anchors.className === 'active') {
-          anchors.className = ''
-        }
+        anchors.className = 'none'
       }
       e.target.className = 'active'
-      const currentPage = e.target.innerHTML
+      const currentPage = e.target.textContent
       showPage(list, currentPage)
     }
   })
 }
 
-const createSearch = () => {
 // create a search input with button
-  const pageHeader = document.querySelector('.page-header')
+const pageHeader = document.querySelector('.page-header')
 
-  const searchDiv = createElement('div', 'className', 'student-search')
+const searchDiv = createElement('div', 'className', 'student-search')
 
-  const searchInput = createElement('input')
-  searchInput.setAttribute('placeholder', 'Search for students...')
-  searchDiv.appendChild(searchInput)
+const searchInput = createElement('input')
+searchInput.setAttribute('placeholder', 'Search for students...')
+searchDiv.appendChild(searchInput)
 
-  const searchButton = createElement('button', 'innerHTML', 'Search')
-  searchDiv.appendChild(searchButton)
+const searchButton = createElement('button', 'innerHTML', 'Search')
+searchDiv.appendChild(searchButton)
 
-  pageHeader.appendChild(searchDiv)
-}
-createSearch()
+pageHeader.appendChild(searchDiv)
+
 // reference to the search input:
 const searchBar = document.querySelector('input')
 
@@ -125,20 +123,10 @@ const renderStudents = (search, studentList) => {
   const pagination = document.querySelector('.pagination')
   pageDiv.removeChild(pagination)
 
-  const noMatch = createElement('h3', 'textContent', 'No results found... search again')
+  const noMatch = createElement('h3', 'textContent', 'No results found... try again')
   pageDiv.appendChild(noMatch)
   noMatch.style.display = 'none'
-  /**
- * noMatch
- *
- * create and append element to DOM to display no search results
- *
- */
-  // const noMatch = () => {
-  //   const ul = document.querySelector('.student-list')
-  //   const h3 = createElement('h3', 'textContent', 'No results found')
-  //   ul.appendChild(h3)
-  // }
+
   // loop over studentList
   for (let i = 0; i < studentList.length; i++) {
   // variable to reference each individual in studentList at index of i
