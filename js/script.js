@@ -141,6 +141,7 @@ const renderStudents = (search, studentList) => {
   }
   if (searchResults.length === 0) {
     noMatch.style.display = ''
+    console.log('problem if more then 1')
   } else {
     noMatch.style.display = 'none'
   }
