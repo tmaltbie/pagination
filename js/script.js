@@ -91,20 +91,22 @@ const appendPageLinks = (list) => {
   })
 }
 
+const createSearch = () => {
 // create a search input with button
-const pageHeader = document.querySelector('.page-header')
+  const pageHeader = document.querySelector('.page-header')
 
-const searchDiv = createElement('div', 'className', 'student-search')
+  const searchDiv = createElement('div', 'className', 'student-search')
 
-const searchInput = createElement('input')
-searchInput.setAttribute('placeholder', 'Search for students...')
-searchDiv.appendChild(searchInput)
+  const searchInput = createElement('input')
+  searchInput.setAttribute('placeholder', 'Search for students...')
+  searchDiv.appendChild(searchInput)
 
-const searchButton = createElement('button', 'innerHTML', 'Search')
-searchDiv.appendChild(searchButton)
+  const searchButton = createElement('button', 'innerHTML', 'Search')
+  searchDiv.appendChild(searchButton)
 
-pageHeader.appendChild(searchDiv)
-
+  pageHeader.appendChild(searchDiv)
+}
+createSearch()
 // reference to the search input:
 const searchBar = document.querySelector('input')
 
@@ -123,6 +125,9 @@ const renderStudents = (search, studentList) => {
   const pagination = document.querySelector('.pagination')
   pageDiv.removeChild(pagination)
 
+  const noMatch = createElement('h3', 'textContent', 'No results found... search again')
+  pageDiv.appendChild(noMatch)
+  noMatch.style.display = 'none'
   /**
  * noMatch
  *
@@ -131,8 +136,8 @@ const renderStudents = (search, studentList) => {
  */
   // const noMatch = () => {
   //   const ul = document.querySelector('.student-list')
-  //   const li = createElement('li', 'textContent', 'No results found')
-  //   ul.appendChild(li)
+  //   const h3 = createElement('h3', 'textContent', 'No results found')
+  //   ul.appendChild(h3)
   // }
   // loop over studentList
   for (let i = 0; i < studentList.length; i++) {
@@ -144,12 +149,12 @@ const renderStudents = (search, studentList) => {
     // if search results are in the list add to array otherwise remove
     if (names.toLowerCase().indexOf(filter) > -1) {
       searchResults.push(students)
-    // } else {
-    //   searchResults.pop(students)
-    // } else if (names.toLowerCase().filter.length === 0) {
-    //   noMatch()
-    // }
     }
+  }
+  if (searchResults.length === 0) {
+    noMatch.style.display = ''
+  } else {
+    noMatch.style.display = 'none'
   }
   showPage(searchResults, 1)
   appendPageLinks(searchResults)
@@ -159,7 +164,7 @@ const renderStudents = (search, studentList) => {
 showPage(listItem, 1)
 appendPageLinks(listItem)
 // keyup allows search filter to work in real time
-searchBar.addEventListener('keyup', () => {
+searchBar.addEventListener('keyup', (e) => {
   renderStudents(searchBar, listItem)
 })
 // submit allows button to also process the input
