@@ -53,16 +53,11 @@ const showPage = (list, page) => {
  */
 const appendPageLinks = (list) => {
   const numOfLI = Math.ceil(list.length / eachPage)
-
-  console.log('length of list: ', list.length)
-  console.log('math problem: ', Math.ceil(list.length / eachPage))
-
   const ul = createElement('ul')
   const paginationDiv = createElement('div', 'className', 'pagination')
   pageDiv.appendChild(paginationDiv)
   paginationDiv.appendChild(ul)
 
-  console.log('number of list items: ', numOfLI)
   for (let i = 0; i < numOfLI; i++) {
     const li = createElement('li')
     const a = createElement('a')
@@ -75,7 +70,6 @@ const appendPageLinks = (list) => {
     if (i === 0) {
       a.className = 'active'
     }
-    console.log(li)
   }
 
   paginationDiv.addEventListener('click', (e) => {
@@ -108,18 +102,17 @@ const noMatch = createElement('h3', 'textContent', 'No results found... try agai
 pageDiv.appendChild(noMatch)
 noMatch.style.display = 'none'
 
-
-
 const renderSearch = (input, list) => {
+  const filter = input.value.toLowerCase()
+
   for (let i = 0; i < list.length; i++) {
     list[i].style.display = 'none'
-    const studentNames = list[i].querySelector('h3').textContent
-    if (input.value.length !== 0 && studentNames.toLowerCase().includes(input.value.toLowerCase())) {
+    const studentNames = list[i].querySelectorAll('h3')[0]
+    const studentText = studentNames.textContent
+    if (studentText.toLowerCase().indexOf(filter) > -1) {
       list[i].style.display = ''
     } else {
       list[i].style.display = 'none'
-    } if (input.value.length === 0) {
-      list[i].style.display = ''
     }
   }
 }
@@ -129,8 +122,16 @@ const paginateSearch = (search, list) => {
   const pagination = document.querySelector('.pagination')
   pageDiv.removeChild(pagination)
   for (let i = 0; i < list.length; i++) {
-
+    list[i].style.display = 'none'
+    const studentNames = list[i].querySelector('h3').textContent
+    if (search.value.length !== 0 && studentNames.toLowerCase().includes(search.value.toLowerCase())) {
+      results.push(list[i])
+    } else if (results.length === 0) {
+      noMatch.style.display = ''
+    }
   }
+  showPage(results, 1)
+  appendPageLinks(results)
 }
 
 searchBar.addEventListener('keyup', () => {
