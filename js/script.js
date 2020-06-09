@@ -117,7 +117,7 @@ const renderSearch = (input, list) => {
     list[i].style.display = 'none'
     const studentNames = list[i].querySelector('h3').textContent
     if (input.value.length !== 0 && studentNames.toLowerCase().includes(input.value.toLowerCase())) {
-      list[i].style.display = ''
+      // list[i].style.display = ''
       results.push(list[i])
     }
   }
