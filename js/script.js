@@ -63,7 +63,7 @@ const appendPageLinks = (list) => {
   paginationDiv.appendChild(ul)
 
   console.log('number of list items: ', numOfLI)
-  for (let i = 0; i <= numOfLI; i++) {
+  for (let i = 0; i < numOfLI; i++) {
     const li = createElement('li')
     const a = createElement('a')
     ul.appendChild(li)
@@ -77,7 +77,6 @@ const appendPageLinks = (list) => {
     }
     console.log(li)
   }
-  
 
   paginationDiv.addEventListener('click', (e) => {
     const anchor = document.querySelectorAll('a')
@@ -109,20 +108,19 @@ const noMatch = createElement('h3', 'textContent', 'No results found... try agai
 pageDiv.appendChild(noMatch)
 noMatch.style.display = 'none'
 
+// const pagination = document.querySelector('.pagination')
+// pageDiv.removeChild(pagination)
+
 const renderSearch = (input, list) => {
-  const results = []
-  const pagination = document.querySelector('.pagination')
-  pageDiv.removeChild(pagination)
   for (let i = 0; i < list.length; i++) {
     list[i].style.display = 'none'
     const studentNames = list[i].querySelector('h3').textContent
     if (input.value.length !== 0 && studentNames.toLowerCase().includes(input.value.toLowerCase())) {
-      // list[i].style.display = ''
-      results.push(list[i])
+      list[i].style.display = ''
+    } else {
+      list[i].style.display = 'none'
     }
   }
-  showPage(results, 1)
-  appendPageLinks(results)
 }
 
 searchBar.addEventListener('keyup', () => {
