@@ -108,8 +108,7 @@ const noMatch = createElement('h3', 'textContent', 'No results found... try agai
 pageDiv.appendChild(noMatch)
 noMatch.style.display = 'none'
 
-// const pagination = document.querySelector('.pagination')
-// pageDiv.removeChild(pagination)
+
 
 const renderSearch = (input, list) => {
   for (let i = 0; i < list.length; i++) {
@@ -119,7 +118,18 @@ const renderSearch = (input, list) => {
       list[i].style.display = ''
     } else {
       list[i].style.display = 'none'
+    } if (input.value.length === 0) {
+      list[i].style.display = ''
     }
+  }
+}
+
+const paginateSearch = (search, list) => {
+  const results = []
+  const pagination = document.querySelector('.pagination')
+  pageDiv.removeChild(pagination)
+  for (let i = 0; i < list.length; i++) {
+
   }
 }
 
