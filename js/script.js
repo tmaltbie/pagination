@@ -117,22 +117,22 @@ const renderSearch = (input, list) => {
   }
 }
 
-const paginateSearch = (search, list) => {
-  const results = []
-  const pagination = document.querySelector('.pagination')
-  pageDiv.removeChild(pagination)
-  for (let i = 0; i < list.length; i++) {
-    list[i].style.display = 'none'
-    const studentNames = list[i].querySelector('h3').textContent
-    if (search.value.length !== 0 && studentNames.toLowerCase().includes(search.value.toLowerCase())) {
-      results.push(list[i])
-    } else if (results.length === 0) {
-      noMatch.style.display = ''
-    }
-  }
-  showPage(results, 1)
-  appendPageLinks(results)
-}
+// const paginateSearch = (search, list) => {
+//   const results = []
+//   const pagination = document.querySelector('.pagination')
+//   pageDiv.removeChild(pagination)
+//   for (let i = 0; i < list.length; i++) {
+//     list[i].style.display = 'none'
+//     const studentNames = list[i].querySelector('h3').textContent
+//     if (search.value.length !== 0 && studentNames.toLowerCase().includes(search.value.toLowerCase())) {
+//       results.push(list[i])
+//     } else if (results.length === 0) {
+//       noMatch.style.display = ''
+//     }
+//   }
+//   showPage(results, 1)
+//   appendPageLinks(results)
+// }
 
 searchBar.addEventListener('keyup', () => {
   renderSearch(searchBar, listItem)
