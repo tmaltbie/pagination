@@ -5,7 +5,7 @@ FSJS project 2 - List Filter and Pagination
 
 const listItem = document.querySelectorAll('.student-item')
 const eachPage = 10
-
+const paginationDiv = document.createElement('div')
 const pageDiv = document.querySelector('.page')
 /**
  * createElement
@@ -54,7 +54,7 @@ const showPage = (list, page) => {
 const appendPageLinks = (list) => {
   const numOfLI = Math.ceil(list.length / eachPage)
   const ul = createElement('ul')
-  const paginationDiv = createElement('div', 'className', 'pagination')
+  paginationDiv.className = 'pagination'
   pageDiv.appendChild(paginationDiv)
   paginationDiv.appendChild(ul)
 
@@ -118,10 +118,16 @@ const renderSearch = (input, list) => {
 }
 
 searchBar.addEventListener('keyup', () => {
-  renderSearch(searchBar, listItem)
+  if (searchBar.value !== '') {
+    renderSearch(searchBar, listItem)
+  } else {
+    paginationDiv.innerHTML = ''
+    showPage(listItem, 1)
+    appendPageLinks(listItem)
+  }
 })
 
-searchBar.addEventListener('submit', (e) => {
-  e.preventDefault()
-  renderSearch(searchBar, listItem)
-})
+// searchBar.addEventListener('submit', (e) => {
+//   e.preventDefault()
+//   renderSearch(searchBar, listItem)
+// })
