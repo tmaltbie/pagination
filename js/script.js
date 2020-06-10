@@ -3,10 +3,13 @@ Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
 
-const listItem = document.querySelectorAll('.student-item')
-const eachPage = 10
-const paginationDiv = document.createElement('div')
-const pageDiv = document.querySelector('.page')
+const listItem = document.querySelectorAll('.student-item') // grabs list of students from HTML
+const eachPage = 10 // sets number of students to show per page
+const pageDiv = document.querySelector('.page') // wraps the page-header and student-list ul
+const paginationDiv = createElement('div', 'className', 'pagination') // creates pagination div for "links"
+
+const searchResults = [] // empty array to hold search results 
+
 /**
  * createElement
  * creates elements with a property and a value and returns the element
@@ -54,7 +57,6 @@ const showPage = (list, page) => {
 const appendPageLinks = (list) => {
   const numOfLI = Math.ceil(list.length / eachPage)
   const ul = createElement('ul')
-  paginationDiv.className = 'pagination'
   pageDiv.appendChild(paginationDiv)
   paginationDiv.appendChild(ul)
 
@@ -102,32 +104,52 @@ const noMatch = createElement('h3', 'textContent', 'No results found... try agai
 pageDiv.appendChild(noMatch)
 noMatch.style.display = 'none'
 
-const renderSearch = (input, list) => {
-  const filter = input.value.toLowerCase()
+const renderSearch = (input, studentList) => {
+  const filter = input.value.toLowerCase() // variable references the string value in the input search bar, sets to lower case
 
-  for (let i = 0; i < list.length; i++) {
-    list[i].style.display = 'none'
-    const studentNames = list[i].querySelectorAll('h3')[0]
-    const studentText = studentNames.textContent
-    if (studentText.toLowerCase().indexOf(filter) > -1) {
-      list[i].style.display = ''
-    } else {
-      list[i].style.display = 'none'
+  // const pagination = document.querySelector('.pagination')
+  // pageDiv.removeChild(pagination)
+
+  for (let i = 0; i < studentList.length; i++) { // will loop over a list, student-items
+    const students = studentList[i] // references each individual student
+    const studentNames = document.querySelectorAll('.student-details h3') // grabs each individual students' names
+    // students.style.display = 'none'
+    if (filter.length !== 0 && studentNames[i].textContent.toLowerCase().includes(filter)) { 
+      // if the filter isn't empty AND the students' names matches what is typed into the search input
+      searchResults.push(students) // push the results into array searchResultse
+      // students.style.display = ''
+    // }
     }
   }
+  console.log(searchResults)
 }
 
+// const renderSearch = (input, list) => {
+//   const filter = input.value.toLowerCase()
+
+//   for (let i = 0; i < list.length; i++) {
+//     list[i].style.display = 'none'
+//     const studentNames = list[i].querySelectorAll('h3')[0]
+//     const studentText = studentNames.textContent || studentNames.innerText
+//     if (studentText.toLowerCase().indexOf(filter) > -1) {
+//       list[i].style.display = ''
+//     } else {
+//       list[i].style.display = 'none'
+//     }
+//   }
+// }
+
 searchBar.addEventListener('keyup', () => {
-  if (searchBar.value !== '') {
-    renderSearch(searchBar, listItem)
-  } else {
-    paginationDiv.innerHTML = ''
-    showPage(listItem, 1)
-    appendPageLinks(listItem)
-  }
+  // if (searchBar.value !== '') {
+  renderSearch(searchBar, listItem)
+  // } else {
+  //   paginationDiv.innerHTML = ''
+  //   showPage(listItem, 1)
+  //   appendPageLinks(listItem)
+  // }
 })
 
-// searchBar.addEventListener('submit', (e) => {
-//   e.preventDefault()
-//   renderSearch(searchBar, listItem)
-// })
+searchBar.addEventListener('submit', (e) => {
+  e.preventDefault()
+  renderSearch(searchBar, listItem)
+})
