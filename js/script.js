@@ -7,9 +7,7 @@ const listItem = document.querySelectorAll('.student-item') // grabs list of stu
 const eachPage = 10 // sets number of students to show per page
 const pageDiv = document.querySelector('.page') // wraps the page-header and student-list ul
 const paginationDiv = createElement('div', 'className', 'pagination') // creates pagination div for "links"
-
-const searchResults = [] // empty array to hold search results 
-
+let searchResults // for an empty array to hold search results
 /**
  * createElement
  * creates elements with a property and a value and returns the element
@@ -87,68 +85,60 @@ const appendPageLinks = (list) => {
   })
 }
 
-showPage(listItem, 1)
-appendPageLinks(listItem)
+showPage(listItem, 1) // call show page function with student list and first page number as paramters
+appendPageLinks(listItem) // calls function in order to create necessary number of links
 
 // create a search input with button
-const pageHeader = document.querySelector('.page-header')
-const searchDiv = createElement('div', 'className', 'student-search')
-const searchBar = createElement('input')
-const submit = createElement('button', 'innerText', 'Search')
-searchDiv.appendChild(searchBar)
-searchDiv.appendChild(submit)
-pageHeader.appendChild(searchDiv)
+const pageHeader = document.querySelector('.page-header') // selectes the header
+const searchDiv = createElement('div', 'className', 'student-search') // creates div with class name
+const searchBar = createElement('input') // creates search bar input
+const submit = createElement('button', 'innerText', 'Search') // creates submit button with text
+searchDiv.appendChild(searchBar) // appends searchBar div to the .student-search div
+searchDiv.appendChild(submit) // appends button to .student-search div
+pageHeader.appendChild(searchDiv) // appends whole thing inside of header
 
-// create no results element
+// creates/styles+hides/appends No Results text element
 const noMatch = createElement('h3', 'textContent', 'No results found... try again')
-pageDiv.appendChild(noMatch)
+noMatch.style.color = '#4ba6c3'
+noMatch.style.fontWeight = 'bold'
 noMatch.style.display = 'none'
+pageDiv.appendChild(noMatch)
 
 const renderSearch = (input, studentList) => {
   const filter = input.value.toLowerCase() // variable references the string value in the input search bar, sets to lower case
+  searchResults = [] // array to store search matches, it reset each time renderSearch is called b/c it is inside the function
 
-  // pageDiv.removeChild(paginationDiv) // deletes pagination from DOM in order to re-paginate later
+  pageDiv.removeChild(paginationDiv) // deletes pagination from DOM in order to re-paginate later
+  // paginationDiv.innerHTML = '' // clears pagination DIV, does similar removeChild above - remove
 
   for (let i = 0; i < studentList.length; i++) { // will loop over a list, student-items
     const students = studentList[i] // references each individual student
     const studentNames = document.querySelectorAll('.student-details h3') // grabs each individual students' names
-    // students.style.display = 'none' // hide students so they can be re-added and paginated again soon
+    students.style.display = 'none' // hide students so they can be re-added and paginated again soon
     if (filter.length !== 0 && studentNames[i].textContent.toLowerCase().includes(filter)) { // if the filter isn't empty AND students' names match what is typed into the search input
-      searchResults.push(students) // push the results into array searchResultse
-      // students.style.display = ''
-    // }
+      searchResults.push(students)
+      noMatch.style.display = 'none' // push the results into array searchResults
+    } else if (searchResults.length === 0) { // if search input is empty
+      noMatch.style.display = '' // show the no match text
     }
   }
-  showPage(searchResults, 1)
-  appendPageLinks(searchResults)
+  paginationDiv.innerHTML = '' // empty the pagination div before appending based on new search results
+  showPage(searchResults, 1) // show appropriate number of pages based on search results
+  appendPageLinks(searchResults) // append paginate links based on search results
 }
 
-// const renderSearch = (input, list) => {
-//   const filter = input.value.toLowerCase()
-
-//   for (let i = 0; i < list.length; i++) {
-//     list[i].style.display = 'none'
-//     const studentNames = list[i].querySelectorAll('h3')[0]
-//     const studentText = studentNames.textContent || studentNames.innerText
-//     if (studentText.toLowerCase().indexOf(filter) > -1) {
-//       list[i].style.display = ''
-//     } else {
-//       list[i].style.display = 'none'
-//     }
-//   }
-// }
-
-searchBar.addEventListener('keyup', () => {
-  // if (searchBar.value !== '') {
-  renderSearch(searchBar, listItem)
-  // } else {
-  //   paginationDiv.innerHTML = ''
-  //   showPage(listItem, 1)
-  //   appendPageLinks(listItem)
-  // }
+searchBar.addEventListener('keyup', (e) => { // anytime the search bar
+  e.preventDefault()
+  if (searchBar.value !== '') { // if the search input is NOT empty, update student list based on function
+    renderSearch(searchBar, listItem) // functioning search bar
+  } else { // otherwise, if the search IS empty:
+    paginationDiv.innerHTML = '' // empty the pagination div of all content
+    showPage(listItem, 1) // call original page function for original set of students
+    appendPageLinks(listItem) // call links function for original amount of pages required
+  }
 })
 
-searchBar.addEventListener('submit', (e) => {
-  e.preventDefault()
-  renderSearch(searchBar, listItem)
+searchBar.addEventListener('submit', (e) => { // search by submitting the input
+  e.preventDefault() // prevents website from refreshing
+  renderSearch(searchBar, listItem) // calls the search funtion
 })
