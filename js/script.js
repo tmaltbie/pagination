@@ -105,19 +105,21 @@ noMatch.style.display = 'none'
 pageDiv.appendChild(noMatch)
 
 const renderSearch = (input, studentList) => {
-  const filter = input.value.toLowerCase() // variable references the string value in the input search bar, sets to lower case
+  const filter = input.value.trim().toLowerCase() // variable references the string value in the input search bar, sets to lower case
+  console.log('filter: ', filter)
   searchResults = [] // array to store search matches, it reset each time renderSearch is called b/c it is inside the function
 
   pageDiv.removeChild(paginationDiv) // deletes pagination from DOM in order to re-paginate later
   // paginationDiv.innerHTML = '' // clears pagination DIV, does similar removeChild above - remove
 
-  for (let i = 0; i < studentList.length; i++) { // will loop over a list, student-items
+  for (let i = 0; i < studentList.length; i++) { // will loop over a list, student-ite=ms
     const students = studentList[i] // references each individual student
     const studentNames = document.querySelectorAll('.student-details h3') // grabs each individual students' names
     students.style.display = 'none' // hide students so they can be re-added and paginated again soon
     if (filter.length !== 0 && studentNames[i].textContent.toLowerCase().includes(filter)) { // if the filter isn't empty AND students' names match what is typed into the search input
-      searchResults.push(students)
-      noMatch.style.display = 'none' // push the results into array searchResults
+      console.log(studentNames[i].textContent, i)
+      searchResults.push(students) // push the results into array searchResults
+      noMatch.style.display = 'none' // keeps no match hidden
     } else if (searchResults.length === 0) { // if search input is empty
       noMatch.style.display = '' // show the no match text
     }
