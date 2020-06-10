@@ -107,21 +107,20 @@ noMatch.style.display = 'none'
 const renderSearch = (input, studentList) => {
   const filter = input.value.toLowerCase() // variable references the string value in the input search bar, sets to lower case
 
-  // const pagination = document.querySelector('.pagination')
-  // pageDiv.removeChild(pagination)
+  // pageDiv.removeChild(paginationDiv) // deletes pagination from DOM in order to re-paginate later
 
   for (let i = 0; i < studentList.length; i++) { // will loop over a list, student-items
     const students = studentList[i] // references each individual student
     const studentNames = document.querySelectorAll('.student-details h3') // grabs each individual students' names
-    // students.style.display = 'none'
-    if (filter.length !== 0 && studentNames[i].textContent.toLowerCase().includes(filter)) { 
-      // if the filter isn't empty AND the students' names matches what is typed into the search input
+    // students.style.display = 'none' // hide students so they can be re-added and paginated again soon
+    if (filter.length !== 0 && studentNames[i].textContent.toLowerCase().includes(filter)) { // if the filter isn't empty AND students' names match what is typed into the search input
       searchResults.push(students) // push the results into array searchResultse
       // students.style.display = ''
     // }
     }
   }
-  console.log(searchResults)
+  showPage(searchResults, 1)
+  appendPageLinks(searchResults)
 }
 
 // const renderSearch = (input, list) => {
