@@ -1,3 +1,4 @@
+// PAGINATION!
 /******************************************
 Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
@@ -53,26 +54,27 @@ const showPage = (list, page) => {
  *
  */
 const appendPageLinks = (list) => {
-  const numOfLI = Math.ceil(list.length / eachPage)
-  const ul = createElement('ul')
-  pageDiv.appendChild(paginationDiv)
-  paginationDiv.appendChild(ul)
+  const numOfLinks = Math.ceil(list.length / eachPage) // number of links created is student list length divided by how many are on each page rounded up
+  const ul = createElement('ul') // create unordered list
+  pageDiv.appendChild(paginationDiv) // append pagination div inside of the page div
+  paginationDiv.appendChild(ul) // puts the unordered list inside the pagination div
+  // const paginationUL = document.querySelector('.pagination ul');
 
-  for (let i = 0; i < numOfLI; i++) {
-    const li = createElement('li')
-    const a = createElement('a')
-    ul.appendChild(li)
-    li.appendChild(a)
+  for (let i = 0; i < numOfLinks; i++) { // loop through the number of LI (54 students = 6 LI)
+    const li = createElement('li') // create the li
+    const a = createElement('a') // create the anchor tag
+    ul.appendChild(li) // wrap li inside ul
+    li.appendChild(a) // wrap a inside li
 
-    a.href = '#'
-    a.textContent = i + 1
+    a.href = '#' // adds # to a tag
+    a.textContent = i + 1 // each loop increases link #, starts at 1
 
-    if (i === 0) {
+    if (i === 0) { // link at index of 0 gets active class first
       a.className = 'active'
     }
   }
 
-  paginationDiv.addEventListener('click', (e) => {
+  ul.addEventListener('click', (e) => {
     const anchor = document.querySelectorAll('a')
     if (e.target.tagName === 'A') {
       for (let i = 0; i < anchor.length; i++) {
@@ -80,7 +82,7 @@ const appendPageLinks = (list) => {
         anchors.className = 'none'
       }
       e.target.className = 'active'
-      showPage(list, e.target.textContent)
+      showPage(listItem, e.target.textContent)
     }
   })
 }
@@ -113,12 +115,12 @@ const renderSearch = (input, studentList) => {
   // paginationDiv.innerHTML = '' // clears pagination DIV, does similar removeChild above - remove
 
   for (let i = 0; i < studentList.length; i++) { // will loop over a list, student-ite=ms
-    const students = studentList[i] // references each individual student
+    const student = studentList[i] // references each individual student
     const studentNames = document.querySelectorAll('.student-details h3') // grabs each individual students' names
-    students.style.display = 'none' // hide students so they can be re-added and paginated again soon
+    student.style.display = 'none' // hide students so they can be re-added and paginated again soon
     if (filter.length !== 0 && studentNames[i].textContent.toLowerCase().includes(filter)) { // if the filter isn't empty AND students' names match what is typed into the search input
       console.log(studentNames[i].textContent, i)
-      searchResults.push(students) // push the results into array searchResults
+      searchResults.push(student) // push the results into array searchResults
       noMatch.style.display = 'none' // keeps no match hidden
     } else if (searchResults.length === 0) { // if search input is empty
       noMatch.style.display = '' // show the no match text
@@ -140,7 +142,7 @@ searchBar.addEventListener('keyup', (e) => { // anytime the search bar
   }
 })
 
-searchBar.addEventListener('submit', (e) => { // search by submitting the input
-  e.preventDefault() // prevents website from refreshing
-  renderSearch(searchBar, listItem) // calls the search funtion
-})
+// searchBar.addEventListener('submit', (e) => { // search by submitting the input
+//   e.preventDefault() // prevents website from refreshing
+//   renderSearch(searchBar, listItem) // calls the search funtion
+// })
