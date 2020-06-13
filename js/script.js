@@ -55,12 +55,12 @@ const showPage = (list, page) => {
  *
  */
 const appendPageLinks = (list) => {
-  const numOfLinks = Math.ceil(list.length / itemsPerPage) // number of links created is student list length divided by how many are on each page rounded up
+  const numOfPages = Math.ceil(list.length / itemsPerPage) // number of links created is student list length divided by how many are on each page rounded up
   const ul = createElement('ul') // create unordered list
   pageDiv.appendChild(paginationDiv) // append pagination div inside of the page div
   paginationDiv.appendChild(ul) // puts the unordered list inside the pagination div
 
-  for (let i = 0; i < numOfLinks; i++) { // loop through the number of LI (54 students = 6 LI)
+  for (let i = 0; i < numOfPages; i++) { // loop through the number of LI (54 students = 6 LI)
     const li = createElement('li') // create the li
     const a = createElement('a') // create the anchor tag
     ul.appendChild(li) // wrap li inside ul
