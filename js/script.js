@@ -111,7 +111,6 @@ const renderSearch = (input, studentList) => {
   searchResults = [] // array to store search matches, it reset each time renderSearch is called b/c it is inside the function
 
   pageDiv.removeChild(paginationDiv) // deletes pagination from DOM in order to re-paginate later
-  // paginationDiv.innerHTML = '' // clears pagination DIV, does similar removeChild above - remove
 
   for (let i = 0; i < studentList.length; i++) { // will loop over a list, student-items
     const student = studentList[i] // references each individual student
