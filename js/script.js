@@ -5,15 +5,16 @@ FSJS project 2 - List Filter and Pagination
 ******************************************/
 
 const listItem = document.querySelectorAll('.student-item') // grabs list of students from HTML
-const eachPage = 10 // sets number of students to show per page
+const itemsPerPage = 10 // sets number of students to show per page
 const pageDiv = document.querySelector('.page') // wraps the page-header and student-list ul
 const paginationDiv = createElement('div', 'className', 'pagination') // creates pagination div for "links"
-let searchResults // for an empty array to hold search results
+let searchResults = [] // for an empty array to hold search results
+
 /**
  * createElement
  * creates elements with a property and a value and returns the element
  *
- * @elementName {object} - type of element, ex: li
+ * @elementName {object} - type of element, ex: liw
  * @property {object} - element property, ex: elementName.innerText
  * @value {object} - property value, ex: element[property] = 'No results found'
  *
@@ -26,15 +27,15 @@ function createElement (elementName, property, value) {
 
 /**
  * showPage
- * creates the pcessary amount of pages
+ * shows correct amount of students per page
  *
  * @list {object} - takes a list to iterate over and display list items
  * @page {number} - determines how many items are on each page
  *
  */
 const showPage = (list, page) => {
-  const startIndex = (page * eachPage) - eachPage
-  const endIndex = (page * eachPage)
+  const startIndex = (page * itemsPerPage) - itemsPerPage
+  const endIndex = (page * itemsPerPage)
   for (let i = 0; i < list.length; i++) {
     const listIndex = list[i]
     if (i >= startIndex && i < endIndex) {
@@ -54,11 +55,10 @@ const showPage = (list, page) => {
  *
  */
 const appendPageLinks = (list) => {
-  const numOfLinks = Math.ceil(list.length / eachPage) // number of links created is student list length divided by how many are on each page rounded up
+  const numOfLinks = Math.ceil(list.length / itemsPerPage) // number of links created is student list length divided by how many are on each page rounded up
   const ul = createElement('ul') // create unordered list
   pageDiv.appendChild(paginationDiv) // append pagination div inside of the page div
   paginationDiv.appendChild(ul) // puts the unordered list inside the pagination div
-  // const paginationUL = document.querySelector('.pagination ul');
 
   for (let i = 0; i < numOfLinks; i++) { // loop through the number of LI (54 students = 6 LI)
     const li = createElement('li') // create the li
@@ -82,7 +82,7 @@ const appendPageLinks = (list) => {
         anchors.className = 'none'
       }
       e.target.className = 'active'
-      showPage(listItem, e.target.textContent)
+      showPage(list, e.target.textContent)
     }
   })
 }
@@ -108,13 +108,12 @@ pageDiv.appendChild(noMatch)
 
 const renderSearch = (input, studentList) => {
   const filter = input.value.trim().toLowerCase() // variable references the string value in the input search bar, sets to lower case
-  console.log('filter: ', filter)
   searchResults = [] // array to store search matches, it reset each time renderSearch is called b/c it is inside the function
 
   pageDiv.removeChild(paginationDiv) // deletes pagination from DOM in order to re-paginate later
   // paginationDiv.innerHTML = '' // clears pagination DIV, does similar removeChild above - remove
 
-  for (let i = 0; i < studentList.length; i++) { // will loop over a list, student-ite=ms
+  for (let i = 0; i < studentList.length; i++) { // will loop over a list, student-items
     const student = studentList[i] // references each individual student
     const studentNames = document.querySelectorAll('.student-details h3') // grabs each individual students' names
     student.style.display = 'none' // hide students so they can be re-added and paginated again soon
@@ -141,8 +140,3 @@ searchBar.addEventListener('keyup', (e) => { // anytime the search bar
     appendPageLinks(listItem) // call links function for original amount of pages required
   }
 })
-
-// searchBar.addEventListener('submit', (e) => { // search by submitting the input
-//   e.preventDefault() // prevents website from refreshing
-//   renderSearch(searchBar, listItem) // calls the search funtion
-// })
