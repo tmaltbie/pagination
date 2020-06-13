@@ -1,4 +1,3 @@
-// PAGINATION!
 /******************************************
 Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
@@ -110,14 +109,13 @@ const renderSearch = (input, studentList) => {
   const filter = input.value.trim().toLowerCase() // variable references the string value in the input search bar, sets to lower case
   searchResults = [] // array to store search matches, it reset each time renderSearch is called b/c it is inside the function
 
-  pageDiv.removeChild(paginationDiv) // deletes pagination from DOM in order to re-paginate later
+  pageDiv.removeChild(paginationDiv) // deletes pagination from DOM (to re-paginate later)
 
   for (let i = 0; i < studentList.length; i++) { // will loop over a list, student-items
     const student = studentList[i] // references each individual student
     const studentNames = document.querySelectorAll('.student-details h3') // grabs each individual students' names
     student.style.display = 'none' // hide students so they can be re-added and paginated again soon
     if (filter.length !== 0 && studentNames[i].textContent.toLowerCase().includes(filter)) { // if the filter isn't empty AND students' names match what is typed into the search input
-      console.log(studentNames[i].textContent, i)
       searchResults.push(student) // push the results into array searchResults
       noMatch.style.display = 'none' // keeps no match hidden
     } else if (searchResults.length === 0) { // if search input is empty
